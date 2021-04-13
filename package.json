@@ -1,0 +1,21 @@
+{
+  "name": "software-manager",
+  "version": "1.0.0",
+  "description": "Software Management Software",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js"
+  },
+  "author": "Ayaz Alam",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "enum": "^3.0.4",
+    "express": "^4.17.1",
+    "joi": "^17.4.0",
+    "mongodb": "^3.6.5",
+    "mongoose": "^5.12.3"
+  }
+}
