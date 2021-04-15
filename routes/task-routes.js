@@ -6,7 +6,7 @@ const enums = require("../utils/enums");
 //Get all the post
 router.get("/", async (req, res) => {
   try {
-    const allTasks = await TaskModel.find();
+    const allTasks = await TaskModel.find().sort('-_id');
     res.json(allTasks);
   } catch (err) {
     sendError(400, { message: err }, res);
@@ -56,7 +56,7 @@ router.put("/:id", async (req, res) => {
   if (!req.body) return sendError(400, "Body is missing", res);
 
   try {
-    const updatedTask = await TaskModel.updateOne(
+    const updatedTaskMessage = await TaskModel.updateOne(
       { _id: req.params.id },
       {
         $set: {
@@ -64,7 +64,11 @@ router.put("/:id", async (req, res) => {
         },
       }
     );
-    res.json(updatedTask);
+    if (updatedTaskMessage.ok == 1) {
+      //Send back update task to the user
+      const updatedTask = await TaskModel.findById(req.params.id);
+      return res.json(updatedTask);
+    } else res.json(updatedTaskMessage);
   } catch (err) {
     sendError(404, { message: err }, res);
   }
