@@ -35,6 +35,10 @@ router.post('/',async (req,res)=>{
         return sendError(400,'Error: Please provide valid body', res)
 
 
+    const alreadyExist = await UserModel.find({email:req.body.email})
+    if(!alreadyExist.length == 0){
+        return res.status(401).send('Email already exists')
+    }
     const user = new UserModel({
         ...req.body
     })

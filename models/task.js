@@ -10,6 +10,14 @@ const taskSchema = mongoose.Schema({
     type: String,
     required: true,
   },
+  subProjectId:{
+    type: String,
+    required: false
+  },
+  organizationId:{
+    type:String,
+    required: false
+  },
   description: String,
   createdAt: {
     type: Date,

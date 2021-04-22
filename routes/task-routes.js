@@ -1,10 +1,13 @@
 const express = require("express");
+const  jwt = require("jsonwebtoken");
+const { authenticateToken } = require("../authMiddlewares");
+const { rawListeners } = require("../models/task");
 const router = express.Router();
 const TaskModel = require("../models/task");
 const enums = require("../utils/enums");
 
-//Get all the post
-router.get("/", async (req, res) => {
+//Get all the tasks
+router.get("/", authenticateToken, async (req, res) => {
   try {
     const allTasks = await TaskModel.find().sort('-_id');
     res.json(allTasks);
@@ -12,6 +15,19 @@ router.get("/", async (req, res) => {
     sendError(400, { message: err }, res);
   }
 });
+
+router.get("/mytask", authenticateToken, async (req, res) => {
+  try {
+    const allTasks = await TaskModel.find().sort('-_id');
+    const myTasks  = allTasks.filter((item)=>{
+      return item.assignedUser === req.user.username
+    })
+    res.json(myTasks);
+  } catch (err) {
+    sendError(400, { message: err }, res);
+  }
+});
+
 
 // Need to implement some validation to avoid crash, need to implement the situation in which no id is matched
 router.get("/:id", async (req, res) => {
@@ -27,8 +43,7 @@ router.get("/:id", async (req, res) => {
 
 //Add new task
 router.post("/", async (req, res) => {
-  console.log("Post: ");
-  console.log(req.body);
+
   if (!req.body.title || !req.body.taskType)
     return sendError(400, "Error: Please provide body", res);
 

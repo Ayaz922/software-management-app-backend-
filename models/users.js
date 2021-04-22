@@ -5,6 +5,10 @@ const userSchema = mongoose.Schema({
     type: String,
     required: true,
   },
+  username:{
+    type:String,
+    required: true
+  },
   email: {
     type: String,
     required: true,
@@ -32,6 +36,10 @@ const userSchema = mongoose.Schema({
     type: String, //Enum should be there,
     required: true,
   },
+  password:{
+    type: String,
+    required: true
+  }
 });
 
 module.exports = mongoose.model("users", userSchema);
