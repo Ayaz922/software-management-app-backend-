@@ -18,7 +18,7 @@ To install all the required dependencies present in the package.json
 ## npm start
 To start application server
 
-## npm start:auth
+## npm run start:auth
 To start authentication server 
 
 ## npm run startDev
