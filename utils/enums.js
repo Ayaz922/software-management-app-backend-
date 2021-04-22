@@ -1,13 +1,15 @@
 const Enum = require("enum");
 
 const TASK_STATUS = {
-  BACKLOG: "BACKLOG",
-  READY: "READY",
-  ON_GOING: "ON_GOING",
-  PEER_REVIEW: "PEER_REVIEW",
-  TESTING: "TESTING",
-  COMPLETED: "COMPLETED",
-  RESOLVED: "RESOLVED",
+  BACKLOG: "BACKLOG",//Default Status
+  READY: "READY", //Developer
+  IN_PROGRESS: "IN_PROGRESS", //Developer
+  PEER_REVIEW: "PEER_REVIEW", // Developer
+  TESTING: "TESTING", // Developer
+  DONE: "DONE", //Tester
+  RESOLVED: "RESOLVED", //Project manager
+  DEPLOYED: "DEPLOYED",//Project manager
+  CANCELLED: "CANCELLED",
 };
 Object.freeze(TASK_STATUS);
 

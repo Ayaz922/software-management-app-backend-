@@ -1,11 +1,13 @@
 const express = require('express')
+const { adminAccessRequired } = require('../authMiddlewares')
 const { update } = require('../models/users')
 const router = express.Router()
 const UserModel = require('../models/users')
+const { userCRUDPermission } = require('../permissions/user-permissions')
 const enums = require('../utils/enums')
 
-//Get all the users
-router.get('/',async (req,res)=>{
+//Get all the users || Need to add a middleware that makes sure other than admin and project manager, all the othe people are only able to see the people who are assigned to same project
+router.get('/', async (req,res)=>{
     try{
         const allUsers = await UserModel.find()
         res.json(allUsers)
@@ -30,7 +32,7 @@ router.get('/:id',async (req,res)=>{
 })
 
 //Add new user
-router.post('/',async (req,res)=>{
+router.post('/',userCRUDPermission, async (req,res)=>{
     if(!req.body.email || !req.body.name || !req.body.userType)
         return sendError(400,'Error: Please provide valid body', res)
 
@@ -53,7 +55,7 @@ router.post('/',async (req,res)=>{
 })
 
 //Update task's title and description
-router.put('/:id',async (req,res)=>{
+router.put('/:id',userCRUDPermission ,async (req,res)=>{
     if(!req.params.id)
         return sendError(400,'Error: Please provide id', res);
     
@@ -76,7 +78,7 @@ router.put('/:id',async (req,res)=>{
 })
 
 //Delete task
-router.delete('/:id',async (req,res)=>{
+router.delete('/:id',userCRUDPermission, async (req,res)=>{
     if(!req.params.id){
         return sendError(400,'Error: Please provide id', res);
     }

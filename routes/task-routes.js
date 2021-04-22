@@ -1,13 +1,13 @@
 const express = require("express");
-const  jwt = require("jsonwebtoken");
 const { authenticateToken } = require("../authMiddlewares");
-const { rawListeners } = require("../models/task");
 const router = express.Router();
 const TaskModel = require("../models/task");
+const { addTaskPermission, updateTaskPermission, deleteTaskPermission, changeStatusPermission } = require("../permissions/task-permissions");
 const enums = require("../utils/enums");
 
 //Get all the tasks
-router.get("/", authenticateToken, async (req, res) => {
+//TODO Add middleware to filter out the task for particular projects only
+router.get("/", async (req, res) => {
   try {
     const allTasks = await TaskModel.find().sort('-_id');
     res.json(allTasks);
@@ -16,7 +16,7 @@ router.get("/", authenticateToken, async (req, res) => {
   }
 });
 
-router.get("/mytask", authenticateToken, async (req, res) => {
+router.get("/mytask", async (req, res) => {
   try {
     const allTasks = await TaskModel.find().sort('-_id');
     const myTasks  = allTasks.filter((item)=>{
@@ -42,7 +42,7 @@ router.get("/:id", async (req, res) => {
 });
 
 //Add new task
-router.post("/", async (req, res) => {
+router.post("/",addTaskPermission, async (req, res) => {
 
   if (!req.body.title || !req.body.taskType)
     return sendError(400, "Error: Please provide body", res);
@@ -53,6 +53,7 @@ router.post("/", async (req, res) => {
 
   const task = new TaskModel({
     ...req.body,
+    creator:req.user.username,
     status: enums.TASK_STATUS[req.body.status],
   });
 
@@ -65,7 +66,7 @@ router.post("/", async (req, res) => {
 });
 
 //Update task's title and description
-router.put("/:id", async (req, res) => {
+router.put("/update/:id", updateTaskPermission, async (req, res) => {
   if (!req.params.id) return sendError(400, "Error: Please provide id", res);
 
   if (!req.body) return sendError(400, "Body is missing", res);
@@ -89,10 +90,10 @@ router.put("/:id", async (req, res) => {
   }
 });
 
-//Update status of the task (Should use enum, need to search internet)
-router.patch("/:id", async (req, res) => {
+//Update status of the task
+router.put("/:id", changeStatusPermission, async (req, res) => {
+  
   if (!req.params.id) return sendError(400, "Error: Please provide id", res);
-  if (!req.body) return sendError(400, "Body is missing", res);
 
   try {
     const updatedTask = await TaskModel.updateOne(
@@ -111,7 +112,7 @@ router.patch("/:id", async (req, res) => {
 });
 
 //Delete task
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", deleteTaskPermission, async (req, res) => {
   if (!req.params.id) {
     return sendError(400, "Error: Please provide id", res);
   }

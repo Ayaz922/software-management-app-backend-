@@ -1,5 +1,7 @@
-const mongoose = require('mongoose')
-require('dotenv').config()
+const mongoose = require("mongoose");
+const RoleSchema = require("../models/roles");
+const { createRoles } = require("./generateRoles");
+require("dotenv").config();
 
 const connectDatabase = () => {
   const databaseURI = process.env.DATABASE_URI;
@@ -14,5 +16,10 @@ const connectDatabase = () => {
   connection.once("open", function () {
     console.log("MongoDB database connection established successfully");
   });
+
+  RoleSchema.find({}, function (err, users) {
+    if(err) console.log(err)
+    else if (users.length === 0) createRoles();
+  });
 };
-module.exports  = {connectDatabase}
+module.exports = { connectDatabase };
