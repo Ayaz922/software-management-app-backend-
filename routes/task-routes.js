@@ -136,7 +136,7 @@ router.put("/assign/:id", assignUserPermission, async (req, res) => {
 });
 
 
-router.put("/addComment/:id", assignUserPermission, async (req, res) => {
+router.put("/addComment/:id", async (req, res) => {
   
   if (!req.params.id) return sendError(400, "Error: Please provide id", res);
 

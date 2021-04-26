@@ -1,5 +1,12 @@
 # NodeJs Application for PMS backend
-Node.js Backend for software management app
+Node.js Backend application for Project Management System (PMS). This application after completion will be complete suite with all the functinalities required to manage projects and it's task.
+
+## Authentication system
+This application uses JWT token authentication system to provide seemless authentication. 
+### Application also uses thorough authorization all over the project
+Application have different authorization for different operations based on their roles.
+Roles include-
+Admin, Project Manager, Developers, Testers
 
 
 # Setup .env
