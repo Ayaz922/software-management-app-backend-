@@ -48,7 +48,7 @@ const taskSchema = mongoose.Schema({
     default: "LOW",
   },
   //Assigned
-  assignee: {
+  assignedBy: {
     type: String,
     required: false,
   },

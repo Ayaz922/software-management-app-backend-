@@ -3,7 +3,8 @@ const enums = require("../utils/enums");
 
 //Add Tasks
 const addTaskPermission = (req, res, next) => {
-  if (req.user.userType === "PROJECT_MANAGER") next();
+  if (req.user.userType === "PROJECT_MANAGER" || req.user.userType === "ADMIN")
+    next();
   else res.sendStatus(403);
 };
 
@@ -11,6 +12,19 @@ const addTaskPermission = (req, res, next) => {
 const updateTaskPermission = (req, res, next) => {
   if (req.user.userType === "PROJECT_MANAGER") next();
   else res.sendStatus(403);
+};
+/**
+ * This middleware decides whether the given user can assign the task or not
+ * Rules
+ * 1. If assignee is same as user assigning the project (Assign to self), then anyone can assign 
+ * 2. If assignee is different than user assigning the project(Assign to other), the PM and ADMIN can have permission
+ */
+const assignUserPermission = (req, res, next) => {
+  if(req.body.username === req.user.username)
+    next()
+  else if(req.user.userType ==='ADMIN' || req.user.userType ==='PROJECT_MANAGER')
+    next()
+  else res.status(403).send("You can't assign the task to others")
 };
 
 /**
@@ -45,9 +59,10 @@ const deleteTaskPermission = (req, res, next) => {
   else res.sendStatus(403);
 };
 
-module.exports  = {
-    addTaskPermission,
-    updateTaskPermission,
-    changeStatusPermission,
-    deleteTaskPermission
-}
+module.exports = {
+  addTaskPermission,
+  updateTaskPermission,
+  changeStatusPermission,
+  deleteTaskPermission,
+  assignUserPermission
+};

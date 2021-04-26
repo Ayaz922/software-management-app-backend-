@@ -1,6 +1,5 @@
 const express = require("express");
-const jwt = require("jsonwebtoken");
-const { authenticateToken, adminAccessRequired, setUserData } = require("../authMiddlewares");
+const {setUserData } = require("../authMiddlewares");
 const router = express.Router();
 const ProjectModel = require("../models/project");
 const { viewAllProjectPermission, addProjectPermission, updateProjectPermission, deleteProjectPermission } = require("../permissions/project-permissions");

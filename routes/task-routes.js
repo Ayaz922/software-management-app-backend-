@@ -2,7 +2,7 @@ const express = require("express");
 const { authenticateToken } = require("../authMiddlewares");
 const router = express.Router();
 const TaskModel = require("../models/task");
-const { addTaskPermission, updateTaskPermission, deleteTaskPermission, changeStatusPermission } = require("../permissions/task-permissions");
+const { addTaskPermission, updateTaskPermission, deleteTaskPermission, changeStatusPermission, assignUserPermission } = require("../permissions/task-permissions");
 const enums = require("../utils/enums");
 
 //Get all the tasks
@@ -51,6 +51,10 @@ router.post("/",addTaskPermission, async (req, res) => {
     return sendError(400, "Please provide valid Status", res);
   }
 
+  //Add assigned By field if the developer is already assigned
+  if(req.body.assignedUser)
+    req.body.assignedBy = req.user.username
+  
   const task = new TaskModel({
     ...req.body,
     creator:req.user.username,
@@ -102,6 +106,46 @@ router.put("/:id", changeStatusPermission, async (req, res) => {
         $set: {
           status: req.body.status,
           lastStatusUpdateDate: Date.now(),
+        },
+      }
+    );
+    res.json(updatedTask);
+  } catch (err) {
+    sendError(404, { message: err }, res);
+  }
+});
+
+router.put("/assign/:id", assignUserPermission, async (req, res) => {
+  
+  if (!req.params.id) return sendError(400, "Error: Please provide id", res);
+
+  try {
+    const updatedTask = await TaskModel.updateOne(
+      { _id: req.params.id },
+      {
+        $set: {
+          assignedUser: req.body.assignedUser,
+          assignedBy: req.user.username,
+        },
+      }
+    );
+    res.json(updatedTask);
+  } catch (err) {
+    sendError(404, { message: err }, res);
+  }
+});
+
+
+router.put("/addComment/:id", assignUserPermission, async (req, res) => {
+  
+  if (!req.params.id) return sendError(400, "Error: Please provide id", res);
+
+  try {
+    const updatedTask = await TaskModel.updateOne(
+      { _id: req.params.id },
+      {
+        $set: {
+          comments: req.body.comments
         },
       }
     );

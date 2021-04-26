@@ -5,15 +5,17 @@ const bcrypt = require("bcrypt");
 const UserModel = require("./models/users");
 const { connectDatabase } = require("./database/connect-database");
 const { setUserData, authenticate } = require("./authMiddlewares");
+const cors = require('cors')
 app.use(express.json());
+app.use(cors())
 
 
 
 app.post("/login", setUserData, authenticate, (req, res) => {
-  const accessToken = jwt.sign(req.user, process.env.AUTH_SECRET_KEY);
+  const accessToken = jwt.sign(req.user_data, process.env.AUTH_SECRET_KEY);
   return res
     .status(200)
-    .send({ loggedIn: true, accessToken, username: req.user.username });
+    .send({ loggedIn: true, accessToken, username: req.user_data.username });
 });
 
 const validateRegisterBody = (body) => {
