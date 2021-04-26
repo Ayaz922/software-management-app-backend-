@@ -9,7 +9,7 @@ Roles include-
 Admin, Project Manager, Developers, Testers
 
 
-# Setup .env
+## Setup .env
 
 PORT=PORT_NUMBER_FOR_APPLICATION_SERVER  
 DATABASE_URI= DATABASE_URI_MONGO_DB  
@@ -17,20 +17,20 @@ AUTHPORT= PORT_NUMBER_AUTH_SERVER
 AUTH_SECRET_KEY = JWT_Secret_Key  
 
 
-# Scripts
+## Scripts
 
-## npm install
+### npm install
 To install all the required dependencies present in the package.json
 
-## npm start
+### npm start
 To start application server
 
-## npm run start:auth
+### npm run start:auth
 To start authentication server 
 
-## npm run startDev
+### npm run startDev
 To start application server in development mode
 
 
-## npm run startDev:auth
+### npm run startDev:auth
 To start authentication server in development mode
