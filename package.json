@@ -2,14 +2,14 @@
   "name": "software-manager",
   "version": "1.0.0",
   "description": "Software Management Software",
-  "main": "server.js",
+  "main": "src/server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js",
-    "start:auth":"node authServer.js",
-    "startDev":"nodemon server.js",
-    "startDev:auth":"nodemon authServer.js"
-
+    "start": "node src/server.js",
+    "start:auth": "node src/authServer.js",
+    "startDev": "nodemon src/server.js",
+    "startDev:auth": "nodemon src/authServer.js",
+    "build": "tsc"
   },
   "author": "Ayaz Alam",
   "license": "ISC",
@@ -23,5 +23,8 @@
     "jsonwebtoken": "^8.5.1",
     "mongodb": "^3.6.5",
     "mongoose": "^5.12.3"
+  },
+  "devDependencies": {
+    "typescript": "^4.2.4"
   }
 }

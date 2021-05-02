@@ -1,5 +1,3 @@
-const Enum = require("enum");
-
 const TASK_STATUS = {
   BACKLOG: "BACKLOG",//Default Status
   READY: "READY", //Developer

@@ -37,7 +37,7 @@ const assignUserPermission = (req, res, next) => {
 const changeStatusPermission = (req, res, next) => {
   //Check if status is valid
   if (!req.body.status || !enums.TASK_STATUS.hasOwnProperty(req.body.status))
-    return res.status(401).send("Please enter valid Task status");
+    return res.status(400).send("Please enter valid Task status");
   const status = req.body.status;
   const userType = req.user.userType;
 
