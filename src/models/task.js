@@ -1,3 +1,4 @@
+const { string } = require("joi");
 const mongoose = require("mongoose");
 const enums = require("../utils/enums");
 const taskSchema = mongoose.Schema({
@@ -37,6 +38,10 @@ const taskSchema = mongoose.Schema({
     type: String,
     required: false,
   },
+  startDate:{
+    type:Date,
+    required:false
+  },
   dueDate: {
     type: Date,
     required: false,
@@ -70,6 +75,14 @@ const taskSchema = mongoose.Schema({
     type: Array,
     required: false,
   },
+  subTaskIds:{
+    type:Array,
+    required:false
+  },
+  storyPoint:{
+    type:Number,
+    required:false,
+  }
 });
 
 module.exports = mongoose.model("tasks", taskSchema);

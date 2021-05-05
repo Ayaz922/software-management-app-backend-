@@ -1,3 +1,4 @@
+const { string } = require("joi");
 const mongoose = require("mongoose");
 
 const ProjectSchema = mongoose.Schema({
@@ -28,6 +29,20 @@ const ProjectSchema = mongoose.Schema({
     },
     actualEndDate:{
         type:Date
+    },
+    key:{
+        required:true,
+        type:String
+    },
+    category:{
+        required:false,
+        type:String,
+        default:'Basic Software'
+    },
+    currentSprint:{
+        required:false,
+        type:String,
+        default:'S_0'
     }
 
 });

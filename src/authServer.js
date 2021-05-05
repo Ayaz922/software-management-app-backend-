@@ -60,7 +60,8 @@ app.post("/register", async (req, res) => {
 connectDatabase();
 
 //Listen
-port = process.env.AUTHPORT || 8001;
+const port = process.env.AUTHPORT || 8001;
 app.listen(port, () =>
   console.log(`Authentication server live at Port ${port}`)
 );
+

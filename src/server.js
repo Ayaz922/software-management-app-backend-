@@ -18,5 +18,5 @@ app.use('/project',projectRoutes)
 //Connect Database
 connectDatabase()
 //Listen    
-port = process.env.PORT || 8000
+const port = process.env.PORT || 8000
 app.listen(port, ()=> console.log(`Application server started at Port ${port}`))

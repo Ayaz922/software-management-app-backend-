@@ -2,8 +2,9 @@
 
 //  Add project
 const addProjectPermission = (req, res, next) => {
-  if (req.user.userType !== "ADMIN") return res.sendStatus(403);
-  next();
+  if (req.user.userType === "PROJECT_MANAGER" || req.user.userType === "ADMIN")
+    next();
+  else res.sendStatus(403);
 };
 //  View projects
 const viewAllProjectPermission = (req, res, next) => {
@@ -26,8 +27,8 @@ const assignProjectManagerPermission = (req, res, next) => {
 };
 // Delete project
 const deleteProjectPermission = (req, res, next) => {
-    if (req.user.userType !== "ADMIN") return res.sendStatus(403);
-    next();
+  if (req.user.userType !== "ADMIN") return res.sendStatus(403);
+  next();
 };
 
 module.exports = {
@@ -35,5 +36,5 @@ module.exports = {
   assignProjectManagerPermission,
   viewAllProjectPermission,
   updateProjectPermission,
-  deleteProjectPermission
+  deleteProjectPermission,
 };
