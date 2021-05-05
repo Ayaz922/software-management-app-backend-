@@ -20,7 +20,7 @@ AUTH_SECRET_KEY = JWT_Secret_Key
 ## Scripts
 
 ### npm install
-To install all the required dependencies present in the package.json
+To install all the required dependencies present in the package.json file
 
 ### npm start
 To start application server
